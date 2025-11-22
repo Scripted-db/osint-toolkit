@@ -332,9 +332,6 @@ class EasyIdService {
       // generating language preferences based on detected locale
       const languagePreferences = this.getLanguagePreferences(detectedLocale);
       
-      // generating a profile picture URL using the seed for consistency
-      const profilePicture = this.generateProfilePicture(f, fakeFirstName, fakeLastName, seed, i);
-      
       const profile = {
         // OPSEC-focused identity - only useful information.
         username: baseUsername,
@@ -342,7 +339,6 @@ class EasyIdService {
         location: fakeLocation,
         age: age,
         joinYear: joinYear,
-        avatar: profilePicture,
         personalityTags: selectedTraits,
         languagePreferences: languagePreferences,
 
@@ -408,12 +404,6 @@ class EasyIdService {
       secondary: selectedSecondary,
       proficiency: 'Native'
     };
-  }
-
-  // realistic-looking fake people avatars
-  generateProfilePicture(f, firstName, lastName, seed = null, index = 0) {
-    const avatarSeed = seed ? `${seed}-${index}` : `${firstName}-${lastName}-${index}`;
-    return `https://i.pravatar.cc/256?u=${encodeURIComponent(avatarSeed)}`;
   }
 
   // censoring the IP address for display (shows only first two octets)
