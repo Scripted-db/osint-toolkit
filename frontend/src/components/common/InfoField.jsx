@@ -23,7 +23,7 @@ const InfoField = ({
   return (
     <div>
       {tooltip ? (
-        <div className="flex items-center space-x-2">
+        <div className="flex items-start space-x-2">
           {icon ? (
             <span className={`${labelClassName} flex items-center space-x-1`}>
               {icon}
@@ -33,10 +33,10 @@ const InfoField = ({
             <span className={labelClassName}>{label}</span>
           )}
           <span 
-            className="text-dark-400 text-xs cursor-help" 
+            className="text-dark-400 text-xs cursor-help hover:text-dark-300 transition-colors relative -top-0.5" 
             title={tooltip}
           >
-            (ℹ️)
+            ?
           </span>
         </div>
       ) : icon ? (

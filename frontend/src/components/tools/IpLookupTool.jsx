@@ -136,16 +136,16 @@ const IpLookupTool = () => {
                   <span>Location</span>
                 </h4>
                 <div className="grid md:grid-cols-2 gap-5">
-                  <InfoField label="Country" value={results.geolocation.country_name} />
+                  <InfoField label="Country" value={results.geolocation?.country_name} />
                   <InfoField 
                     label="Country Code" 
-                    value={results.geolocation.country_code} 
+                    value={results.geolocation?.country_code} 
                     useMono 
                   />
-                  <InfoField label="Region/State" value={results.geolocation.region} />
-                  <InfoField label="City" value={results.geolocation.city} />
-                  <InfoField label="Postal Code" value={results.geolocation.postal} />
-                  <InfoField label="Continent" value={results.geolocation.continent} />
+                  <InfoField label="Region/State" value={results.geolocation?.region} />
+                  <InfoField label="City" value={results.geolocation?.city} />
+                  <InfoField label="Postal Code" value={results.geolocation?.postal} />
+                  <InfoField label="Continent" value={results.geolocation?.continent} />
                   <InfoField 
                     label="Coordinates" 
                     value={results.geolocation}
@@ -156,17 +156,17 @@ const IpLookupTool = () => {
                     }
                     useMono
                   />
-                  <InfoField label="Timezone" value={results.geolocation.timezone} />
+                  <InfoField label="Timezone" value={results.geolocation?.timezone} />
                   <InfoField 
                     label="Calling Code" 
-                    value={results.geolocation.calling_code}
+                    value={results.geolocation?.calling_code}
                     icon={<Phone className="w-4 h-4" />}
                     formatValue={(code) => code ? `+${code}` : 'Unknown'}
                   />
-                  <InfoField label="Currency" value={results.geolocation.currency_name} />
+                  <InfoField label="Currency" value={results.geolocation?.currency_name} />
                   <InfoField 
                     label="EU Member" 
-                    value={results.geolocation.is_eu_member}
+                    value={results.geolocation?.is_eu_member}
                     renderValue={(isEu) => (
                       <p className={`font-medium ${isEu ? 'text-blue-400' : 'text-dark-400'}`}>
                         {isEu ? 'Yes' : 'No'}
@@ -187,10 +187,10 @@ const IpLookupTool = () => {
                   <span>Network Information</span>
                 </h4>
                 <div className="grid md:grid-cols-2 gap-5">
-                  <InfoField label="ASN" value={results.geolocation.asn} useMono />
-                  <InfoField label="Organization" value={results.geolocation.org} />
-                  <InfoField label="Network" value={results.geolocation.network} useMono />
-                  {results.geolocation.datacenter && (
+                  <InfoField label="ASN" value={results.geolocation?.asn} useMono />
+                  <InfoField label="Organization" value={results.geolocation?.org} />
+                  <InfoField label="Network" value={results.geolocation?.network} useMono />
+                  {results.geolocation?.datacenter && (
                     <InfoField 
                       label="Datacenter Provider" 
                       value={results.geolocation.datacenter}
@@ -213,7 +213,7 @@ const IpLookupTool = () => {
                 <div className="grid md:grid-cols-2 gap-5">
                   <InfoField 
                     label="Malicious" 
-                    value={results.reputation.malicious}
+                    value={results.reputation?.malicious}
                     tooltip="IP flagged for significant abuse (Elevated/High scores). Low scores are filtered to reduce false positives. Independent of VPN/Tor/Proxy status."
                     renderValue={(isMalicious) => (
                       <p className={`font-medium ${isMalicious ? 'text-red-400' : 'text-green-400'}`}>
@@ -223,7 +223,7 @@ const IpLookupTool = () => {
                   />
                   <InfoField 
                     label="Suspicious" 
-                    value={results.reputation.suspicious}
+                    value={results.reputation?.suspicious}
                     tooltip="IP uses anonymous networks (Tor, VPN, or Proxy). Not inherently malicious, just indicates anonymity."
                     renderValue={(isSuspicious) => (
                       <p className={`font-medium ${isSuspicious ? 'text-yellow-400' : 'text-green-400'}`}>
@@ -233,7 +233,7 @@ const IpLookupTool = () => {
                   />
                   <InfoField 
                     label="VPN" 
-                    value={results.reputation.is_vpn}
+                    value={results.reputation?.is_vpn}
                     renderValue={(isVpn) => (
                       <p className={`font-medium ${isVpn ? 'text-yellow-400' : 'text-green-400'}`}>
                         {isVpn ? 'Yes' : 'No'}
@@ -242,7 +242,7 @@ const IpLookupTool = () => {
                   />
                   <InfoField 
                     label="Tor" 
-                    value={results.reputation.is_tor}
+                    value={results.reputation?.is_tor}
                     renderValue={(isTor) => (
                       <p className={`font-medium ${isTor ? 'text-yellow-400' : 'text-green-400'}`}>
                         {isTor ? 'Yes' : 'No'}
@@ -251,7 +251,7 @@ const IpLookupTool = () => {
                   />
                   <InfoField 
                     label="Proxy" 
-                    value={results.reputation.is_proxy}
+                    value={results.reputation?.is_proxy}
                     renderValue={(isProxy) => (
                       <p className={`font-medium ${isProxy ? 'text-yellow-400' : 'text-green-400'}`}>
                         {isProxy ? 'Yes' : 'No'}
@@ -260,7 +260,7 @@ const IpLookupTool = () => {
                   />
                   <InfoField 
                     label="Datacenter" 
-                    value={results.reputation.is_datacenter}
+                    value={results.reputation?.is_datacenter}
                     renderValue={(isDatacenter) => (
                       <p className={`font-medium ${isDatacenter ? 'text-blue-400' : 'text-dark-400'}`}>
                         {isDatacenter ? 'Yes' : 'No'}
@@ -269,7 +269,7 @@ const IpLookupTool = () => {
                   />
 
                   {/* abuser scores, even though they arent very accurate (see above) */}
-                  {results.reputation.abuser_score_company && (
+                  {results.reputation?.abuser_score_company && (
                     <InfoField 
                       label="Abuse Score (Company)" 
                       value={results.reputation.abuser_score_company}
@@ -285,7 +285,7 @@ const IpLookupTool = () => {
                       )}
                     />
                   )}
-                  {results.reputation.abuser_score_asn && (
+                  {results.reputation?.abuser_score_asn && (
                     <InfoField 
                       label="Abuse Score (ASN)" 
                       value={results.reputation.abuser_score_asn}
@@ -303,7 +303,7 @@ const IpLookupTool = () => {
                   )}
 
                   {/* additional stuff/flags */}
-                  {results.geolocation.is_mobile && (
+                  {results.geolocation?.is_mobile && (
                     <InfoField 
                       label="Mobile Network" 
                       value={true}
@@ -311,7 +311,7 @@ const IpLookupTool = () => {
                       renderValue={() => <p className="text-blue-400 font-medium">Yes</p>}
                     />
                   )}
-                  {results.geolocation.is_satellite && (
+                  {results.geolocation?.is_satellite && (
                     <InfoField 
                       label="Satellite ISP" 
                       value={true}
@@ -319,7 +319,7 @@ const IpLookupTool = () => {
                       renderValue={() => <p className="text-blue-400 font-medium">Yes</p>}
                     />
                   )}
-                  {results.geolocation.crawler && (
+                  {results.geolocation?.crawler && (
                     <InfoField 
                       label="Crawler/Bot" 
                       value={results.geolocation.crawler}
@@ -330,7 +330,7 @@ const IpLookupTool = () => {
                 </div>
 
                 {/* virustotal data (if available) */}
-                {results.reputation.virustotal && (
+                {results.reputation?.virustotal && (
                   <div className="mt-6 pt-6 border-t border-dark-700">
                     <h5 className="text-lg font-medium text-white mb-4 flex items-center space-x-2">
                       <Shield className="w-5 h-5 text-primary-400" />
@@ -348,7 +348,7 @@ const IpLookupTool = () => {
                           </p>
                         )}
                       />
-                      {results.reputation.virustotal.scan_date && (
+                      {results.reputation.virustotal?.scan_date && (
                         <InfoField 
                           label="Last Scanned" 
                           value={results.reputation.virustotal.scan_date}
@@ -356,7 +356,7 @@ const IpLookupTool = () => {
                           valueClassName="text-white text-sm"
                         />
                       )}
-                      {results.reputation.virustotal.detected_urls && results.reputation.virustotal.detected_urls.length > 0 && (
+                      {results.reputation.virustotal?.detected_urls && results.reputation.virustotal.detected_urls.length > 0 && (
                         <InfoField 
                           label="Malicious URLs" 
                           value={results.reputation.virustotal.detected_urls.length} 
