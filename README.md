@@ -18,7 +18,7 @@ This project is in active development. While i've made significant improvements 
 
 **Linux/macOS:**
 ```bash
-git clone https://github.com/MaybeScripted/osint-toolkit.git
+git clone https://github.com/Scripted-db/osint-toolkit.git
 cd osint-toolkit
 chmod +x start.sh
 ./start.sh
@@ -26,7 +26,7 @@ chmod +x start.sh
 
 **Windows:**
 ```cmd
-git clone https://github.com/MaybeScripted/osint-toolkit.git
+git clone https://github.com/Scripted-db/osint-toolkit.git
 cd osint-toolkit
 start.bat
 ```
@@ -50,7 +50,7 @@ If you prefer to set up manually or the start scripts don't work:
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/MaybeScripted/osint-toolkit.git
+git clone https://github.com/Scripted-db/osint-toolkit.git
 cd osint-toolkit
 
 # 2. Setup Python environment (Linux/macOS)

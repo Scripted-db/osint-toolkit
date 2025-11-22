@@ -229,7 +229,7 @@ const Layout = ({ children, activeTool, onToolSelect }) => {
           <div className="mt-auto p-4 border-t border-dark-600/30 text-xs text-dark-400">
             <div className="flex items-center justify-between">
               <span>v2.0</span>
-              <span className="text-dark-500">© {new Date().getFullYear()} MaybeScripted</span>
+              <span className="text-dark-500">© {new Date().getFullYear()} Scripted</span>
             </div>
           </div>
         </div>
