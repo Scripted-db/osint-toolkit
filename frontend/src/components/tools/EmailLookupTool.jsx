@@ -57,11 +57,12 @@ const EmailLookupTool = () => {
       <div className="card mb-8 hover:lift anim-enter">
         <form onSubmit={handleLookup} className="card-content space-y-5">
           <div>
-            <label className="block text-base font-medium text-white mb-3">
+            <label htmlFor="email-input" className="block text-base font-medium text-white mb-3">
               Email Address
             </label>
             <div className="flex space-x-4">
               <input
+                id="email-input"
                 type="email"
                 value={email}
                 onChange={handleInputChange}
@@ -71,16 +72,24 @@ const EmailLookupTool = () => {
                   isValidEmail === false ? 'border-red-400' : ''
                 }`}
                 disabled={isLoading}
+                aria-invalid={isValidEmail === false}
+                aria-describedby={isValidEmail === false ? 'email-error' : undefined}
+                aria-label="Email address input"
               />
+              {isValidEmail === false && (
+                <span id="email-error" className="sr-only">Invalid email address format</span>
+              )}
               <button
                 type="submit"
                 disabled={isLoading || !email.trim() || isValidEmail === false}
                 className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
+                aria-label={isLoading ? 'Looking up email address' : 'Lookup email address'}
+                aria-busy={isLoading}
               >
                 {isLoading ? (
-                  <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" aria-hidden="true" />
                 ) : (
-                  <Search className="w-6 h-6" />
+                  <Search className="w-6 h-6" aria-hidden="true" />
                 )}
                 <span>{isLoading ? 'Looking up...' : 'Lookup'}</span>
               </button>
@@ -91,7 +100,7 @@ const EmailLookupTool = () => {
 
       {/* Results */}
       {results && (
-        <div className="space-y-8 anim-fade">
+        <div className="space-y-8 anim-fade" role="region" aria-live="polite" aria-label="Email lookup results">
           <h3 className="text-2xl font-semibold text-white">Lookup Results</h3>
           
           {/* basically a summary / "so this is what was found" */}
@@ -270,8 +279,9 @@ const EmailLookupTool = () => {
                         toast.success('Copied to clipboard!')
                       }}
                       className="btn-ghost"
+                      aria-label={`Copy ${entity.type} entity to clipboard`}
                     >
-                    <Copy className="w-5 h-5" />
+                    <Copy className="w-5 h-5" aria-hidden="true" />
                     </button>
                   </div>
                 ))}

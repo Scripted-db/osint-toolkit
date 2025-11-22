@@ -66,11 +66,12 @@ const DomainLookupTool = () => {
       <div className="card mb-8 hover:lift anim-enter">
         <form onSubmit={handleLookup} className="card-content space-y-5">
           <div>
-            <label className="block text-base font-medium text-white mb-3">
+            <label htmlFor="domain-input" className="block text-base font-medium text-white mb-3">
               Domain Name
             </label>
             <div className="flex space-x-4">
               <input
+                id="domain-input"
                 type="text"
                 value={domain}
                 onChange={handleInputChange}
@@ -80,16 +81,24 @@ const DomainLookupTool = () => {
                   isValidDomain === false ? 'border-red-400' : ''
                 }`}
                 disabled={isLoading}
+                aria-invalid={isValidDomain === false}
+                aria-describedby={isValidDomain === false ? 'domain-error' : undefined}
+                aria-label="Domain name input"
               />
+              {isValidDomain === false && (
+                <span id="domain-error" className="sr-only">Invalid domain name format</span>
+              )}
               <button
                 type="submit"
                 disabled={isLoading || !domain.trim() || isValidDomain === false}
                 className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
+                aria-label={isLoading ? 'Looking up domain' : 'Lookup domain'}
+                aria-busy={isLoading}
               >
                 {isLoading ? (
-                  <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" aria-hidden="true" />
                 ) : (
-                  <Search className="w-6 h-6" />
+                  <Search className="w-6 h-6" aria-hidden="true" />
                 )}
                 <span>{isLoading ? 'Looking up...' : 'Lookup'}</span>
               </button>
@@ -100,7 +109,7 @@ const DomainLookupTool = () => {
 
       {/* Results */}
       {results && (
-        <div className="space-y-8 anim-fade">
+        <div className="space-y-8 anim-fade" role="region" aria-live="polite" aria-label="Domain lookup results">
           <h3 className="text-2xl font-semibold text-white">Lookup Results</h3>
           
           {/* errors and warnings */}
@@ -229,8 +238,9 @@ const DomainLookupTool = () => {
                               toast.success('IP copied to clipboard!')
                             }}
                             className="btn-ghost"
+                            aria-label={`Copy IP address ${record} to clipboard`}
                           >
-                            <Copy className="w-5 h-5" />
+                            <Copy className="w-5 h-5" aria-hidden="true" />
                           </button>
                         </div>
                       ))}
@@ -256,8 +266,9 @@ const DomainLookupTool = () => {
                                 toast.success('MX record copied!')
                               }}
                               className="btn-ghost"
+                              aria-label={`Copy MX record ${recordText} to clipboard`}
                             >
-                              <Copy className="w-5 h-5" />
+                              <Copy className="w-5 h-5" aria-hidden="true" />
                             </button>
                           </div>
                         );
@@ -273,14 +284,15 @@ const DomainLookupTool = () => {
                       {results.dns_records.records.NS.map((record, index) => (
                         <div key={index} className="flex items-center justify-between p-4 bg-dark-700 rounded-lg">
                           <span className="text-white font-mono">{record}</span>
-                          <button
+                            <button
                       onClick={() => {
                               navigator.clipboard.writeText(record)
                               toast.success('NS record copied!')
                             }}
                       className="btn-ghost"
+                      aria-label={`Copy NS record ${record} to clipboard`}
                           >
-                            <Copy className="w-5 h-5" />
+                            <Copy className="w-5 h-5" aria-hidden="true" />
                           </button>
                         </div>
                       ))}
@@ -476,8 +488,9 @@ const DomainLookupTool = () => {
                         toast.success('Entity copied to clipboard!');
                       }}
                       className="btn-ghost"
+                      aria-label={`Copy ${entity.type} entity to clipboard`}
                     >
-                      <Copy className="w-5 h-5" />
+                      <Copy className="w-5 h-5" aria-hidden="true" />
                     </button>
                   </div>
                 ))}

@@ -59,11 +59,12 @@ const IpLookupTool = () => {
         <div className="card-content">
           <form onSubmit={handleLookup} className="space-y-5">
           <div>
-            <label className="block text-base font-medium text-white mb-3">
+            <label htmlFor="ip-input" className="block text-base font-medium text-white mb-3">
               IP Address
             </label>
             <div className="flex space-x-4">
               <input
+                id="ip-input"
                 type="text"
                 value={ip}
                 onChange={handleInputChange}
@@ -73,16 +74,24 @@ const IpLookupTool = () => {
                   isValidIp === false ? 'border-red-400' : ''
                 }`}
                 disabled={isLoading}
+                aria-invalid={isValidIp === false}
+                aria-describedby={isValidIp === false ? 'ip-error' : undefined}
+                aria-label="IP address input"
               />
+              {isValidIp === false && (
+                <span id="ip-error" className="sr-only">Invalid IP address format</span>
+              )}
               <button
                 type="submit"
                 disabled={isLoading || !ip.trim() || isValidIp === false}
                 className="btn-primary flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                aria-label={isLoading ? 'Looking up IP address' : 'Lookup IP address'}
+                aria-busy={isLoading}
               >
                 {isLoading ? (
-                  <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" aria-hidden="true" />
                 ) : (
-                  <Search className="w-6 h-6" />
+                  <Search className="w-6 h-6" aria-hidden="true" />
                 )}
                 <span>{isLoading ? 'Looking up...' : 'Lookup'}</span>
               </button>
@@ -94,7 +103,7 @@ const IpLookupTool = () => {
 
       {/* results (duh?) */}
       {results && (
-        <div className="space-y-8 anim-fade">
+        <div className="space-y-8 anim-fade" role="region" aria-live="polite" aria-label="IP lookup results">
           <h3 className="text-2xl font-semibold text-white">Lookup Results</h3>
           
           {/* basic ip info card */}

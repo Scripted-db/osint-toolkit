@@ -16,9 +16,10 @@ const CopyButton = ({ text, className = '', size = 'w-4 h-4' }) => {
     <button
       onClick={handleCopy}
       className={`p-2 text-dark-300 hover:text-white hover:bg-dark-700 rounded-lg transition-colors ${className}`}
+      aria-label="Copy to clipboard"
       title="Copy to clipboard"
     >
-      <Copy className={size} />
+      <Copy className={size} aria-hidden="true" />
     </button>
   );
 };

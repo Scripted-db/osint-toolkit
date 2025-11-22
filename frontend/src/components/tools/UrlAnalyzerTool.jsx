@@ -122,8 +122,9 @@ const UrlAnalyzerTool = () => {
                 <button
                   onClick={() => copyToClipboard(results.originalUrl)}
                   className="ml-3 btn-ghost p-3"
+                  aria-label="Copy original URL to clipboard"
                 >
-                  <Copy className="w-5 h-5" />
+                  <Copy className="w-5 h-5" aria-hidden="true" />
                 </button>
               </div>
             </div>
@@ -266,8 +267,9 @@ const UrlAnalyzerTool = () => {
                   <button
                     onClick={() => copyToClipboard(analysis.expansion.finalUrl)}
                     className="ml-3 btn-ghost p-3"
+                    aria-label="Copy final URL to clipboard"
                   >
-                    <Copy className="w-5 h-5" />
+                    <Copy className="w-5 h-5" aria-hidden="true" />
                   </button>
                 </div>
               </div>
@@ -735,7 +737,9 @@ const UrlAnalyzerTool = () => {
         <div className="card-content">
         <div className="flex space-x-5">
           <div className="flex-1">
+            <label htmlFor="url-input" className="sr-only">URL to analyze</label>
             <input
+              id="url-input"
               type="text"
               value={url}
               onChange={handleInputChange}
@@ -745,17 +749,25 @@ const UrlAnalyzerTool = () => {
                 isValidUrl === true ? 'border-green-400' : 
                 isValidUrl === false ? 'border-red-400' : ''
               }`}
+              aria-invalid={isValidUrl === false}
+              aria-describedby={isValidUrl === false ? 'url-error' : undefined}
+              aria-label="URL to analyze"
             />
+            {isValidUrl === false && (
+              <span id="url-error" className="sr-only">Invalid URL format</span>
+            )}
           </div>
           <button
             onClick={handleAnalyze}
             disabled={isLoading || !url.trim() || isValidUrl === false}
             className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
+            aria-label={isLoading ? 'Analyzing URL' : 'Analyze URL'}
+            aria-busy={isLoading}
           >
             {isLoading ? (
-              <Loader2 className="w-6 h-6 animate-spin mr-3" />
+              <Loader2 className="w-6 h-6 animate-spin mr-3" aria-hidden="true" />
             ) : (
-              <Search className="w-6 h-6 mr-3" />
+              <Search className="w-6 h-6 mr-3" aria-hidden="true" />
             )}
             {isLoading ? 'Analyzing...' : 'Analyze'}
           </button>
@@ -765,9 +777,9 @@ const UrlAnalyzerTool = () => {
       </div>
 
       {results && (
-        <div className="card hover:lift anim-enter">
+        <div className="card hover:lift anim-enter" role="region" aria-live="polite" aria-label="URL analysis results">
           {/* the tabs for all this */}
-          <div className="tab-nav">
+          <div className="tab-nav" role="tablist" aria-label="Analysis result tabs">
             <nav className="flex space-x-8">
               {[
                 { id: 'overview', label: 'Overview', icon: Globe },
@@ -779,8 +791,12 @@ const UrlAnalyzerTool = () => {
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
                   className={`tab-nav-btn ${activeTab === tab.id ? 'active' : ''}`}
+                  role="tab"
+                  aria-selected={activeTab === tab.id}
+                  aria-controls={`tabpanel-${tab.id}`}
+                  id={`tab-${tab.id}`}
                 >
-                  <tab.icon className="w-5 h-5 mr-3" />
+                  <tab.icon className="w-5 h-5 mr-3" aria-hidden="true" />
                   {tab.label}
                 </button>
               ))}
@@ -788,7 +804,7 @@ const UrlAnalyzerTool = () => {
           </div>
 
           {/* and the content for the tabs */}
-          <div className="card-content anim-fade">
+          <div className="card-content anim-fade" role="tabpanel" id={`tabpanel-${activeTab}`} aria-labelledby={`tab-${activeTab}`}>
             {activeTab === 'overview' && renderOverview()}
             {activeTab === 'security' && renderSecurity()}
             {activeTab === 'domain' && renderDomain()}
