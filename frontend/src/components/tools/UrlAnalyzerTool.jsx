@@ -15,6 +15,7 @@ import {
   Search,
   Info
 } from 'lucide-react';
+import { toast } from 'react-hot-toast';
 import api from '../../services/api';
 import { validateUrl } from '../../utils/validation';
 
@@ -22,7 +23,6 @@ const UrlAnalyzerTool = () => {
   const [url, setUrl] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [results, setResults] = useState(null);
-  const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState('overview');
   const [isValidUrl, setIsValidUrl] = useState(null);
 
@@ -40,18 +40,17 @@ const UrlAnalyzerTool = () => {
 
   const handleAnalyze = async () => {
     if (!url.trim()) {
-      setError('Please enter a URL to analyze');
+      toast.error('Please enter a URL to analyze');
       return;
     }
 
     // Validate URL format before making API call
     if (!validateUrl(url.trim())) {
-      setError('Please enter a valid URL (e.g., https://example.com)');
+      toast.error('Please enter a valid URL (e.g., https://example.com)');
       return;
     }
 
     setIsLoading(true);
-    setError(null);
     setResults(null);
 
     try {
@@ -60,11 +59,12 @@ const UrlAnalyzerTool = () => {
       if (response.success) {
         setResults(response.data);
         setActiveTab('overview');
+        toast.success('URL analysis completed!');
       } else {
-        setError(response.error?.message || 'Analysis failed');
+        throw new Error(response.error?.message || 'Analysis failed');
       }
     } catch (err) {
-      setError(err.response?.data?.error?.message || 'Failed to analyze URL');
+      toast.error(err.response?.data?.error?.message || err.message || 'Failed to analyze URL');
     } finally {
       setIsLoading(false);
     }
@@ -78,6 +78,7 @@ const UrlAnalyzerTool = () => {
 
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text);
+    toast.success('Copied to clipboard!');
   };
 
   const getSecurityScoreColor = (score) => {
@@ -760,11 +761,6 @@ const UrlAnalyzerTool = () => {
           </button>
         </div>
 
-        {error && (
-          <div className="mt-5 bg-red-900/20 border border-red-500/20 text-red-400 px-5 py-4 rounded-lg">
-            {error}
-          </div>
-        )}
         </div>
       </div>
 
