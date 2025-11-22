@@ -3,6 +3,7 @@ import { MapPin, Search, Globe, Shield, Phone, Building2, Smartphone, Satellite,
 import { toast } from 'react-hot-toast'
 import api from '../../services/api'
 import { validateIp } from '../../utils/validation'
+import InfoField from '../common/InfoField'
 
 const IpLookupTool = () => {
   const [ip, setIp] = useState('')
@@ -104,14 +105,15 @@ const IpLookupTool = () => {
                 <span>IP Information</span>
               </h4>
               <div className="grid md:grid-cols-2 gap-5">
-                <div>
-                  <span className="text-dark-300 text-base">IP Address:</span>
-                  <p className="text-white font-mono">{results.ip || ip}</p>
-                </div>
-                <div>
-                  <span className="text-dark-300 text-base">Version:</span>
-                  <p className="text-white">{results.geolocation?.version || 'Unknown'}</p>
-                </div>
+                <InfoField 
+                  label="IP Address" 
+                  value={results.ip || ip} 
+                  useMono 
+                />
+                <InfoField 
+                  label="Version" 
+                  value={results.geolocation?.version} 
+                />
               </div>
             </div>
           </div>
@@ -125,60 +127,43 @@ const IpLookupTool = () => {
                   <span>Location</span>
                 </h4>
                 <div className="grid md:grid-cols-2 gap-5">
-                  <div>
-                    <span className="text-dark-300 text-base">Country:</span>
-                    <p className="text-white">{results.geolocation.country_name || 'Unknown'}</p>
-                  </div>
-                  <div>
-                    <span className="text-dark-300 text-base">Country Code:</span>
-                    <p className="text-white font-mono">{results.geolocation.country_code || 'Unknown'}</p>
-                  </div>
-                  <div>
-                    <span className="text-dark-300 text-base">Region/State:</span>
-                    <p className="text-white">{results.geolocation.region || 'Unknown'}</p>
-                  </div>
-                  <div>
-                    <span className="text-dark-300 text-base">City:</span>
-                    <p className="text-white">{results.geolocation.city || 'Unknown'}</p>
-                  </div>
-                  <div>
-                    <span className="text-dark-300 text-base">Postal Code:</span>
-                    <p className="text-white">{results.geolocation.postal || 'Unknown'}</p>
-                  </div>
-                  <div>
-                    <span className="text-dark-300 text-base">Continent:</span>
-                    <p className="text-white">{results.geolocation.continent || 'Unknown'}</p>
-                  </div>
-                  <div>
-                    <span className="text-dark-300 text-base">Coordinates:</span>
-                    <p className="text-white font-mono">
-                      {results.geolocation.latitude && results.geolocation.longitude
-                        ? `${results.geolocation.latitude}, ${results.geolocation.longitude}`
+                  <InfoField label="Country" value={results.geolocation.country_name} />
+                  <InfoField 
+                    label="Country Code" 
+                    value={results.geolocation.country_code} 
+                    useMono 
+                  />
+                  <InfoField label="Region/State" value={results.geolocation.region} />
+                  <InfoField label="City" value={results.geolocation.city} />
+                  <InfoField label="Postal Code" value={results.geolocation.postal} />
+                  <InfoField label="Continent" value={results.geolocation.continent} />
+                  <InfoField 
+                    label="Coordinates" 
+                    value={results.geolocation}
+                    formatValue={(geo) => 
+                      geo?.latitude && geo?.longitude
+                        ? `${geo.latitude}, ${geo.longitude}`
                         : 'Unknown'
-                      }
-                    </p>
-                  </div>
-                  <div>
-                    <span className="text-dark-300 text-base">Timezone:</span>
-                    <p className="text-white">{results.geolocation.timezone || 'Unknown'}</p>
-                  </div>
-                  <div>
-                    <span className="text-dark-300 text-base flex items-center space-x-1">
-                      <Phone className="w-4 h-4" />
-                      <span>Calling Code:</span>
-                    </span>
-                    <p className="text-white">+{results.geolocation.calling_code || 'Unknown'}</p>
-                  </div>
-                  <div>
-                    <span className="text-dark-300 text-base">Currency:</span>
-                    <p className="text-white">{results.geolocation.currency_name || 'Unknown'}</p>
-                  </div>
-                  <div>
-                    <span className="text-dark-300 text-base">EU Member:</span>
-                    <p className={`font-medium ${results.geolocation.is_eu_member ? 'text-blue-400' : 'text-dark-400'}`}>
-                      {results.geolocation.is_eu_member ? 'Yes' : 'No'}
-                    </p>
-                  </div>
+                    }
+                    useMono
+                  />
+                  <InfoField label="Timezone" value={results.geolocation.timezone} />
+                  <InfoField 
+                    label="Calling Code" 
+                    value={results.geolocation.calling_code}
+                    icon={<Phone className="w-4 h-4" />}
+                    formatValue={(code) => code ? `+${code}` : 'Unknown'}
+                  />
+                  <InfoField label="Currency" value={results.geolocation.currency_name} />
+                  <InfoField 
+                    label="EU Member" 
+                    value={results.geolocation.is_eu_member}
+                    renderValue={(isEu) => (
+                      <p className={`font-medium ${isEu ? 'text-blue-400' : 'text-dark-400'}`}>
+                        {isEu ? 'Yes' : 'No'}
+                      </p>
+                    )}
+                  />
                 </div>
               </div>
             </div>
@@ -193,26 +178,15 @@ const IpLookupTool = () => {
                   <span>Network Information</span>
                 </h4>
                 <div className="grid md:grid-cols-2 gap-5">
-                  <div>
-                    <span className="text-dark-300 text-base">ASN:</span>
-                    <p className="text-white font-mono">{results.geolocation.asn || 'Unknown'}</p>
-                  </div>
-                  <div>
-                    <span className="text-dark-300 text-base">Organization:</span>
-                    <p className="text-white">{results.geolocation.org || 'Unknown'}</p>
-                  </div>
-                  <div>
-                    <span className="text-dark-300 text-base">Network:</span>
-                    <p className="text-white font-mono">{results.geolocation.network || 'Unknown'}</p>
-                  </div>
+                  <InfoField label="ASN" value={results.geolocation.asn} useMono />
+                  <InfoField label="Organization" value={results.geolocation.org} />
+                  <InfoField label="Network" value={results.geolocation.network} useMono />
                   {results.geolocation.datacenter && (
-                    <div>
-                      <span className="text-dark-300 text-base flex items-center space-x-1">
-                        <Building2 className="w-4 h-4" />
-                        <span>Datacenter Provider:</span>
-                      </span>
-                      <p className="text-white">{results.geolocation.datacenter}</p>
-                    </div>
+                    <InfoField 
+                      label="Datacenter Provider" 
+                      value={results.geolocation.datacenter}
+                      icon={<Building2 className="w-4 h-4" />}
+                    />
                   )}
                 </div>
               </div>
@@ -228,130 +202,121 @@ const IpLookupTool = () => {
                   <span>Reputation & Security</span>
                 </h4>
                 <div className="grid md:grid-cols-2 gap-5">
-                  <div>
-                    <div className="flex items-center space-x-2">
-                      <span className="text-dark-300 text-base">Malicious:</span>
-                      <span 
-                        className="text-dark-400 text-xs cursor-help" 
-                        title="IP flagged for significant abuse (Elevated/High scores). Low scores are filtered to reduce false positives. Independent of VPN/Tor/Proxy status."
-                      >
-                        (ℹ️)
-                      </span>
-                    </div>
-                    <p className={`font-medium ${
-                      results.reputation.malicious ? 'text-red-400' : 'text-green-400'
-                    }`}>
-                      {results.reputation.malicious ? 'Yes' : 'No'}
-                    </p>
-                  </div>
-                  <div>
-                    <div className="flex items-center space-x-2">
-                      <span className="text-dark-300 text-base">Suspicious:</span>
-                      <span 
-                        className="text-dark-400 text-xs cursor-help" 
-                        title="IP uses anonymous networks (Tor, VPN, or Proxy). Not inherently malicious, just indicates anonymity."
-                      >
-                        (ℹ️)
-                      </span>
-                    </div>
-                    <p className={`font-medium ${
-                      results.reputation.suspicious ? 'text-yellow-400' : 'text-green-400'
-                    }`}>
-                      {results.reputation.suspicious ? 'Yes' : 'No'}
-                    </p>
-                  </div>
-                  <div>
-                    <span className="text-dark-300 text-base">VPN:</span>
-                    <p className={`font-medium ${
-                      results.reputation.is_vpn ? 'text-yellow-400' : 'text-green-400'
-                    }`}>
-                      {results.reputation.is_vpn ? 'Yes' : 'No'}
-                    </p>
-                  </div>
-                  <div>
-                    <span className="text-dark-300 text-base">Tor:</span>
-                    <p className={`font-medium ${
-                      results.reputation.is_tor ? 'text-yellow-400' : 'text-green-400'
-                    }`}>
-                      {results.reputation.is_tor ? 'Yes' : 'No'}
-                    </p>
-                  </div>
-                  <div>
-                    <span className="text-dark-300 text-base">Proxy:</span>
-                    <p className={`font-medium ${
-                      results.reputation.is_proxy ? 'text-yellow-400' : 'text-green-400'
-                    }`}>
-                      {results.reputation.is_proxy ? 'Yes' : 'No'}
-                    </p>
-                  </div>
-                  <div>
-                    <span className="text-dark-300 text-base">Datacenter:</span>
-                    <p className={`font-medium ${
-                      results.reputation.is_datacenter ? 'text-blue-400' : 'text-dark-400'
-                    }`}>
-                      {results.reputation.is_datacenter ? 'Yes' : 'No'}
-                    </p>
-                  </div>
+                  <InfoField 
+                    label="Malicious" 
+                    value={results.reputation.malicious}
+                    tooltip="IP flagged for significant abuse (Elevated/High scores). Low scores are filtered to reduce false positives. Independent of VPN/Tor/Proxy status."
+                    renderValue={(isMalicious) => (
+                      <p className={`font-medium ${isMalicious ? 'text-red-400' : 'text-green-400'}`}>
+                        {isMalicious ? 'Yes' : 'No'}
+                      </p>
+                    )}
+                  />
+                  <InfoField 
+                    label="Suspicious" 
+                    value={results.reputation.suspicious}
+                    tooltip="IP uses anonymous networks (Tor, VPN, or Proxy). Not inherently malicious, just indicates anonymity."
+                    renderValue={(isSuspicious) => (
+                      <p className={`font-medium ${isSuspicious ? 'text-yellow-400' : 'text-green-400'}`}>
+                        {isSuspicious ? 'Yes' : 'No'}
+                      </p>
+                    )}
+                  />
+                  <InfoField 
+                    label="VPN" 
+                    value={results.reputation.is_vpn}
+                    renderValue={(isVpn) => (
+                      <p className={`font-medium ${isVpn ? 'text-yellow-400' : 'text-green-400'}`}>
+                        {isVpn ? 'Yes' : 'No'}
+                      </p>
+                    )}
+                  />
+                  <InfoField 
+                    label="Tor" 
+                    value={results.reputation.is_tor}
+                    renderValue={(isTor) => (
+                      <p className={`font-medium ${isTor ? 'text-yellow-400' : 'text-green-400'}`}>
+                        {isTor ? 'Yes' : 'No'}
+                      </p>
+                    )}
+                  />
+                  <InfoField 
+                    label="Proxy" 
+                    value={results.reputation.is_proxy}
+                    renderValue={(isProxy) => (
+                      <p className={`font-medium ${isProxy ? 'text-yellow-400' : 'text-green-400'}`}>
+                        {isProxy ? 'Yes' : 'No'}
+                      </p>
+                    )}
+                  />
+                  <InfoField 
+                    label="Datacenter" 
+                    value={results.reputation.is_datacenter}
+                    renderValue={(isDatacenter) => (
+                      <p className={`font-medium ${isDatacenter ? 'text-blue-400' : 'text-dark-400'}`}>
+                        {isDatacenter ? 'Yes' : 'No'}
+                      </p>
+                    )}
+                  />
 
                   {/* abuser scores, even though they arent very accurate (see above) */}
                   {results.reputation.abuser_score_company && (
-                    <div>
-                      <span className="text-dark-300 text-base flex items-center space-x-1">
-                        <AlertTriangle className="w-4 h-4" />
-                        <span>Abuse Score (Company):</span>
-                      </span>
-                      <p className={`font-medium ${
-                        results.reputation.abuser_score_company.includes('High') ? 'text-red-400' :
-                        results.reputation.abuser_score_company.includes('Elevated') ? 'text-yellow-400' :
-                        'text-dark-400'
-                      }`}>
-                        {results.reputation.abuser_score_company}
-                      </p>
-                    </div>
+                    <InfoField 
+                      label="Abuse Score (Company)" 
+                      value={results.reputation.abuser_score_company}
+                      icon={<AlertTriangle className="w-4 h-4" />}
+                      renderValue={(score) => (
+                        <p className={`font-medium ${
+                          score?.includes('High') ? 'text-red-400' :
+                          score?.includes('Elevated') ? 'text-yellow-400' :
+                          'text-dark-400'
+                        }`}>
+                          {score}
+                        </p>
+                      )}
+                    />
                   )}
                   {results.reputation.abuser_score_asn && (
-                    <div>
-                      <span className="text-dark-300 text-base flex items-center space-x-1">
-                        <AlertTriangle className="w-4 h-4" />
-                        <span>Abuse Score (ASN):</span>
-                      </span>
-                      <p className={`font-medium ${
-                        results.reputation.abuser_score_asn.includes('High') ? 'text-red-400' :
-                        results.reputation.abuser_score_asn.includes('Elevated') ? 'text-yellow-400' :
-                        'text-dark-400'
-                      }`}>
-                        {results.reputation.abuser_score_asn}
-                      </p>
-                    </div>
+                    <InfoField 
+                      label="Abuse Score (ASN)" 
+                      value={results.reputation.abuser_score_asn}
+                      icon={<AlertTriangle className="w-4 h-4" />}
+                      renderValue={(score) => (
+                        <p className={`font-medium ${
+                          score?.includes('High') ? 'text-red-400' :
+                          score?.includes('Elevated') ? 'text-yellow-400' :
+                          'text-dark-400'
+                        }`}>
+                          {score}
+                        </p>
+                      )}
+                    />
                   )}
 
                   {/* additional stuff/flags */}
                   {results.geolocation.is_mobile && (
-                    <div>
-                      <span className="text-dark-300 text-base flex items-center space-x-1">
-                        <Smartphone className="w-4 h-4" />
-                        <span>Mobile Network:</span>
-                      </span>
-                      <p className="text-blue-400 font-medium">Yes</p>
-                    </div>
+                    <InfoField 
+                      label="Mobile Network" 
+                      value={true}
+                      icon={<Smartphone className="w-4 h-4" />}
+                      renderValue={() => <p className="text-blue-400 font-medium">Yes</p>}
+                    />
                   )}
                   {results.geolocation.is_satellite && (
-                    <div>
-                      <span className="text-dark-300 text-base flex items-center space-x-1">
-                        <Satellite className="w-4 h-4" />
-                        <span>Satellite ISP:</span>
-                      </span>
-                      <p className="text-blue-400 font-medium">Yes</p>
-                    </div>
+                    <InfoField 
+                      label="Satellite ISP" 
+                      value={true}
+                      icon={<Satellite className="w-4 h-4" />}
+                      renderValue={() => <p className="text-blue-400 font-medium">Yes</p>}
+                    />
                   )}
                   {results.geolocation.crawler && (
-                    <div>
-                      <span className="text-dark-300 text-base flex items-center space-x-1">
-                        <Bot className="w-4 h-4" />
-                        <span>Crawler/Bot:</span>
-                      </span>
-                      <p className="text-blue-400 font-medium">{results.geolocation.crawler}</p>
-                    </div>
+                    <InfoField 
+                      label="Crawler/Bot" 
+                      value={results.geolocation.crawler}
+                      icon={<Bot className="w-4 h-4" />}
+                      valueClassName="text-blue-400 font-medium"
+                    />
                   )}
                 </div>
 
@@ -363,27 +328,30 @@ const IpLookupTool = () => {
                       <span>VirusTotal Analysis</span>
                     </h5>
                     <div className="grid md:grid-cols-3 gap-5">
-                      <div>
-                        <span className="text-dark-300 text-base">Detections:</span>
-                        <p className={`font-medium ${
-                          results.reputation.virustotal.positives > 0 ? 'text-red-400' : 'text-green-400'
-                        }`}>
-                          {results.reputation.virustotal.positives} / {results.reputation.virustotal.total}
-                        </p>
-                      </div>
-                      {results.reputation.virustotal.scan_date && (
-                        <div>
-                          <span className="text-dark-300 text-base">Last Scanned:</span>
-                          <p className="text-white text-sm">
-                            {new Date(results.reputation.virustotal.scan_date * 1000).toLocaleDateString()}
+                      <InfoField 
+                        label="Detections" 
+                        value={results.reputation.virustotal}
+                        renderValue={(vt) => (
+                          <p className={`font-medium ${
+                            vt?.positives > 0 ? 'text-red-400' : 'text-green-400'
+                          }`}>
+                            {vt?.positives || 0} / {vt?.total || 0}
                           </p>
-                        </div>
+                        )}
+                      />
+                      {results.reputation.virustotal.scan_date && (
+                        <InfoField 
+                          label="Last Scanned" 
+                          value={results.reputation.virustotal.scan_date}
+                          formatValue={(date) => new Date(date * 1000).toLocaleDateString()}
+                          valueClassName="text-white text-sm"
+                        />
                       )}
                       {results.reputation.virustotal.detected_urls && results.reputation.virustotal.detected_urls.length > 0 && (
-                        <div>
-                          <span className="text-dark-300 text-base">Malicious URLs:</span>
-                          <p className="text-white">{results.reputation.virustotal.detected_urls.length}</p>
-                        </div>
+                        <InfoField 
+                          label="Malicious URLs" 
+                          value={results.reputation.virustotal.detected_urls.length} 
+                        />
                       )}
                     </div>
                   </div>
