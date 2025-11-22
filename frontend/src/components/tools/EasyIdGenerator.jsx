@@ -68,7 +68,7 @@ const EasyIdGenerator = () => {
         setAvailableLocales(response.data.locales)
       }
     } catch (error) {
-      console.error('Failed to fetch locales:', error)
+      // meh, just have it silently fail. locales will just be empty
     }
   }
 
@@ -79,7 +79,7 @@ const EasyIdGenerator = () => {
         setAvailableTypes(response.data.types)
       }
     } catch (error) {
-      console.error('Failed to fetch types:', error)
+      // silently fail, types will just be empty
     }
   }
 
@@ -114,7 +114,6 @@ const EasyIdGenerator = () => {
         throw new Error(response.error?.message || 'Generation failed')
       }
     } catch (error) {
-      console.error('Generation error:', error)
       toast.error(error.message || 'Failed to generate data')
     } finally {
       setIsGenerating(false)

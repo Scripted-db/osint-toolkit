@@ -45,7 +45,6 @@ const IpLookupTool = () => {
         throw new Error(response.error?.message || 'Lookup failed')
       }
     } catch (error) {
-      console.error('IP lookup error:', error)
       toast.error(error.message || 'Failed to lookup IP')
     } finally {
       setIsLoading(false)

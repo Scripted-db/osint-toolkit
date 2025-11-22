@@ -45,7 +45,6 @@ const DomainLookupTool = () => {
         throw new Error(response.error?.message || 'Lookup failed')
       }
     } catch (error) {
-      console.error('Domain lookup error:', error)
       toast.error(error.message || 'Failed to lookup domain')
     } finally {
       setIsLoading(false)

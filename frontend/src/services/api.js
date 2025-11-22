@@ -18,7 +18,9 @@ class ApiService {
         return config;
       },
       (error) => {
-        console.error('API Request error:', error);
+        if (process.env.NODE_ENV === 'development') {
+          console.error('API Request error:', error);
+        }
         return Promise.reject(error);
       }
     );
@@ -29,7 +31,9 @@ class ApiService {
         return response;
       },
       (error) => {
-        console.error('API Response error:', error.response?.data || error.message);
+        if (process.env.NODE_ENV === 'development') {
+          console.error('API Response error:', error.response?.data || error.message);
+        }
         return Promise.reject(error);
       }
     );
@@ -56,7 +60,9 @@ class ApiService {
         
         switch (data.type) {
           case 'connected':
-            console.log('SSE Connected:', data.message);
+            if (process.env.NODE_ENV === 'development') {
+              console.log('SSE Connected:', data.message);
+            }
             break;
           case 'result':
             onResult?.(data.data);
@@ -70,17 +76,23 @@ class ApiService {
             eventSource.close();
             break;
           default:
-            console.log('Unknown SSE event type:', data.type);
+            if (process.env.NODE_ENV === 'development') {
+              console.log('Unknown SSE event type:', data.type);
+            }
         }
       } catch (error) {
-        console.error('Error parsing SSE data:', error);
+        if (process.env.NODE_ENV === 'development') {
+          console.error('Error parsing SSE data:', error);
+        }
         onError?.(error);
         eventSource.close();
       }
     };
 
     eventSource.onerror = (error) => {
-      console.error('SSE Error:', error);
+      if (process.env.NODE_ENV === 'development') {
+        console.error('SSE Error:', error);
+      }
       onError?.(new Error('Connection lost'));
       eventSource.close();
     };

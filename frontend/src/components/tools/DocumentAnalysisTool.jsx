@@ -70,7 +70,6 @@ const DocumentAnalysisTool = () => {
         toast.error(response.error?.message || 'Analysis failed')
       }
     } catch (error) {
-      console.error('Analysis error:', error)
       toast.error(error.response?.data?.error?.message || error.message || 'Failed to analyze document')
     } finally {
       setLoading(false)

@@ -130,7 +130,6 @@ const UsernameSearchTool = () => {
         },
         // onError callback
         (error) => {
-          console.error('Streaming error:', error)
           toast.error(error.message || 'Search failed')
           setIsStreaming(false)
           setIsLoading(false)
@@ -147,7 +146,6 @@ const UsernameSearchTool = () => {
         }
       )
     } catch (error) {
-      console.error('Username search error:', error)
       toast.error(error.message || 'Failed to start search')
       setIsStreaming(false)
       setIsLoading(false)
@@ -169,7 +167,6 @@ const UsernameSearchTool = () => {
       setIsLoading(false)
       toast.info('Search stopped')
     } catch (error) {
-      console.error('Error stopping search:', error)
       // Still close the frontend connection even if backend call fails
       if (eventSourceRef.current) {
         eventSourceRef.current.close()

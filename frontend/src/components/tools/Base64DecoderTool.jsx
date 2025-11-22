@@ -75,7 +75,6 @@ const Base64DecoderTool = () => {
       toast.success('Text encoded successfully!')
     } catch (error) {
       toast.error('Failed to encode text')
-      console.error('Encode error:', error)
     }
   }
 
@@ -108,7 +107,6 @@ const Base64DecoderTool = () => {
         toast.success('Base64 decoded successfully!')
       } catch (fallbackError) {
         toast.error('Failed to decode Base64 string')
-        console.error('Decode error:', error)
       }
     }
   }
